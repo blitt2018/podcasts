@@ -1,0 +1,333 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 31,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from bs4 import BeautifulSoup\n",
+    "import requests as req\n",
+    "from tqdm import tqdm \n",
+    "import time\n",
+    "import pandas as pd\n",
+    "import random"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "BASE_URL = \"https://podcastaddict.com/\""
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 103,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def getPod(searchText): \n",
+    "    #reformat the search text and make request \n",
+    "    searchText = searchText.replace(\" \", \"+\")\n",
+    "    searchResponse = req.get(BASE_URL + \"?q=\" + searchText).text\n",
+    "    \n",
+    "    print(BASE_URL + \"?q=\" + searchText)\n",
+    "    #make soup from hits \n",
+    "    hitsSoup = BeautifulSoup(searchResponse)\n",
+    "    \n",
+    "    #TODO: take care of case when we get no hits or not the right one\n",
+    "    \n",
+    "    #grab the first hit\n",
+    "    hitsSoup = hitsSoup.find_all(\"a\", class_=\"clickeableItemRow\")\n",
+    "    links = [hit.get(\"href\") for hit in hitsSoup]\n",
+    "\n",
+    "    #only proceed if we got some hits \n",
+    "    if len(links) > 0: \n",
+    "        #go to the website for the first hit\n",
+    "        fpSite = req.get(links[0]).text\n",
+    "        fpSite = BeautifulSoup(fpSite)\n",
+    "        fpHead = fpSite.head\n",
+    "\n",
+    "        #get name from website page\n",
+    "        fpName = fpSite.find(\"div\", class_=\"caption\", itemprop=\"name\").get_text()\n",
+    "\n",
+    "        #TODO: make sure that the first hit has a very similar title to what we searched \n",
+    "        #after normalizing the text \n",
+    "\n",
+    "        #we can't be positive that this will always be the type of the link \n",
+    "        fpRss = fpHead.find(\"link\", type=\"application/rss+xml\").get(\"href\")\n",
+    "\n",
+    "        #get the xml for the rss feed \n",
+    "        rssText = req.get(fpRss).text\n",
+    "\n",
+    "        #pare the xml \n",
+    "        rssSoup = BeautifulSoup(rssText, features=\"xml\")\n",
+    "\n",
+    "        #get all of the episode links from the xml \n",
+    "        epLinks = [enclosure.get(\"url\") for enclosure in rssSoup.find_all(\"enclosure\")]\n",
+    "\n",
+    "        return fpName, epLinks\n",
+    "    else: \n",
+    "        return None, []"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 85,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#load in a large dataframe with names of podcasts to download \n",
+    "IN_PATH = \"/shared/3/projects/benlitterer/podcastData/podNames/spotifySnowball50k.csv\"\n",
+    "df = pd.read_csv(IN_PATH, index_col=\"Unnamed: 0\")\n",
+    "df = df.sort_values(\"total_episodes\", ascending=False)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 97,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "searchText =  \"THE HUGE SHOW\"\n",
+    "searchText = searchText.replace(\" \", \"+\")\n",
+    "\n",
+    "searchResponse = req.get(\"https://podcastaddict.com/?q=THE+HUGE+SHOW\")\n",
+    "\n",
+    "#make soup from hits \n",
+    "hitsSoup = BeautifulSoup(searchResponse.text)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 98,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "404"
+      ]
+     },
+     "execution_count": 98,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "searchResponse.status_code"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 94,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'<!DOCTYPE html>\\n<html lang=\"en\">\\n<link rel=\"icon\" type=\"image/png\" href=\"/res/images/favicon-32x32.png\" />\\n<meta charset=\"UTF-8\">\\n<html lang=\"en\">\\n<link rel=\"icon\" type=\"image/png\" href=\"/res/images/favicon-32x32.png\" />\\n<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\\n<head>\\n<title>Ooops!</title>\\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0\" />\\n<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css\" integrity=\"sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk\" crossorigin=\"anonymous\">\\n<script src=\"https://code.jquery.com/jquery-3.5.1.slim.min.js\" integrity=\"sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj\" crossorigin=\"anonymous\"></script>\\n<script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js\" integrity=\"sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI\" crossorigin=\"anonymous\"></script>\\n<script async src=\"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>\\n<link rel=\"stylesheet\" href=\"//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css\">\\n<link href=\"//fonts.googleapis.com/css?family=Open+Sans:400,300,700\" rel=\"stylesheet\" type=\"text/css\">\\n<link rel=\"stylesheet\" href=\"/css/style.css\">\\n<script type=\"text/javascript\" src=\"\\' . $pathPrefix . \\'/js/main.js?v=1.0m\"></script>\\n<style type=\"text/css\">\\r\\n\\t\\t#container404 {\\r\\n\\t\\t\\ttext-align:center;\\r\\n\\t\\t\\tmax-width:800px;\\r\\n\\t\\t\\twidth:80%;\\r\\n\\t\\t\\tmargin-top:5%;\\r\\n\\t\\t\\tmargin-bottom:5%;\\r\\n\\t\\t\\tmargin-left:auto;\\r\\n\\t\\t\\tmargin-right:auto;\\t\\t\\t\\r\\n\\t\\t\\tfont-family: concourse_t3, Helvetica, sans-serif;\\r\\n\\t\\t\\tline-height:150%;\\r\\n\\t\\t\\tcolor:gray;\\r\\n\\t\\t}\\r\\n\\r\\n\\t</style>\\n</head>\\n<body>\\n<div id=\"container404\"><img width=\"164\" height=\"164\" src=\"/res/images/logo.svg\" />\\n<h1>404</h1>\\n<p>This is not the podcast you are looking for...</p>\\n</div>\\n</body>\\n</html>'"
+      ]
+     },
+     "execution_count": 94,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "searchResponse"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 104,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "  0%|          | 0/3 [00:00<?, ?it/s]"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "THE+HUGE+SHOW\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      " 33%|███▎      | 1/3 [00:00<00:00,  2.61it/s]"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Best+of+The+Steve+Harvey+Morning+Show\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "100%|██████████| 3/3 [00:00<00:00,  3.08it/s]"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The+Ben+Maller+Show\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "searchPhrases = list(df[\"name\"].head(3))\n",
+    "\n",
+    "podRows = []\n",
+    "\n",
+    "for search in tqdm(searchPhrases): \n",
+    "    sResult, links = getPod(search)\n",
+    "    podLinks[show] = links\n",
+    "    \n",
+    "    currRow = [[search, sResult, link] for link in links]\n",
+    "    \n",
+    "    podRows = podRows + currRow\n",
+    "    \n",
+    "    #in case of rate limit? \n",
+    "    #sleep for random time between 0-1 seconds \n",
+    "    time.sleep(random.random())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 100,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "linkDf = pd.DataFrame(podRows, columns=[\"search\", \"result\", \"link\"])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 101,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(0, 3)"
+      ]
+     },
+     "execution_count": 101,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "linkDf.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 102,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>search</th>\n",
+       "      <th>result</th>\n",
+       "      <th>link</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "Empty DataFrame\n",
+       "Columns: [search, result, link]\n",
+       "Index: []"
+      ]
+     },
+     "execution_count": 102,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "linkDf[linkDf[\"search\"] != linkDf[\"result\"]]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

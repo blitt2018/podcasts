@@ -1,0 +1,44 @@
+ 22 #IN_STEM="/shared/4/projects/podcasts/"
+ 21 MP3_LOC="/shared/3/projects/benlitterer/podcastData/mp3s/testRound"
+ 20 WHISPER_PATH="/shared/4/projects/podcasts/whisper.cpp"
+ 19 MODEL_NAME="ggml-base.en.bin"
+ 18 TRANSCRIPTS_PATH="/shared/3/projects/benlitterer/podcastData/transcripts/premadeTransTranscripts"
+ 17 PROSODY_PATH="/shared/3/projects/benlitterer/podcastData/prosody/premadeTransProsody"
+ 16 OPENSMILE_PATH="/home/blitt/projects/testing/podcasts/transcription/extractProsodicFeatures.py"
+ 15 URL_KEY_PATH="/home/blitt/projects/testing/podcasts/transcription/cleanURL.py"
+ 14 PYANNOTE_PATH="/home/blitt/projects/testing/podcasts/transcription/pyAnnoteCPU.py"
+ 13 DIARIZE_PATH="/shared/3/projects/benlitterer/podcastData/diarization/premadeTransDiarized"
+ 12
+ 11 inURL=$1
+ 10 kURL=`python3 $URL_KEY_PATH $inURL`
+  9 #outName=${inURL//[\/\$]/}
+  8
+  7 #echo "downloading"
+  6 #download the file to MP3 location
+  5 #wget -O $MP3_LOC/$kURL $inURL
+  4 curl -L $inURL --output $MP3_LOC/$kURL
+  3
+  2 #echo "converting"
+  1 #turn that file into .wav format
+29  ffmpeg -i $MP3_LOC/$kURL -t 300 -ar 16000 -ac 1 -c:a pcm_s16le $MP3_LOC/$kURL.wav
+  1
+  2 echo "removing mp3"
+  3 #delete the mp3
+  4 rm $MP3_LOC/$kURL
+  5
+  6 echo "transcribing"
+  7 #transcribe the file
+  8 #$WHISPER_PATH/main -osrt -p 1 -t 1  -m $WHISPER_PATH/models/$MODEL_NAME -f $MP3_LOC/$kURL.wav -of $TRANSCRIPTS_PATH/$kURL
+  9
+ 10 echo "prosody"
+ 11 #python3 $OPENSMILE_PATH $MP3_LOC/$kURL.wav $PROSODY_PATH/$kURL
+ 12
+ 13 #echo "diarizing"
+ 14 python3 $PYANNOTE_PATH $MP3_LOC/$kURL.wav $DIARIZE_PATH/$kURL.rttm
+ 15
+ 16 #echo "removing wav"
+ 17 #delete the wav
+ 18 rm $MP3_LOC/$kURL.wav
+"transcribeOne.sh" 47L, 1716C written
+(base) blitt@burger:~/projects/testing/podcasts/transcription$ bash ~/projects/testing/podcasts/transcription/transcribeOne.sh https://audio1.redc
+ircle.com/episodes/3c3e73af-49ff-41a2-9d84-f83c51a6de9d/stream.mp3
