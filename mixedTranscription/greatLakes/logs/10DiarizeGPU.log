@@ -1,0 +1,2 @@
+Seq	Host	Starttime	JobRuntime	Send	Receive	Exitval	Signal	Command
+1	:	1696513750.457	   298.874	0	411	0	0	bash ~/projects/podcasts/mixedTranscription/greatLakes/diarizeOne.sh 'https://audio1.redcircle.com/episodes/3c3e73af-49ff-41a2-9d84-f83c51a6de9d/stream.mp3'

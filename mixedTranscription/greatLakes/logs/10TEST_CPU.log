@@ -1,0 +1,2 @@
+Seq	Host	Starttime	JobRuntime	Send	Receive	Exitval	Signal	Command
+3	:	1696448819.198	   630.085	0	153072	0	0	bash ~/projects/podcasts/mixedTranscription/greatLakes/transcribeOne.sh 'https://audio1.redcircle.com/episodes/2f8c0bc9-a240-433d-934c-8971d8da0a6c/stream.mp3'
