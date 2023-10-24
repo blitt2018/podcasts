@@ -5,12 +5,15 @@
 #export CUDA_VISIBLE_DEVICES=$1
 
 STORAGE_DIR=/scratch/jurgens_root/jurgens0/blitt
-MP3_LOC=$STORAGE_DIR/podcasts/mp3s/transcription
+MP3_LOC=$STORAGE_DIR/podcasts/mp3s/diarization
 URL_KEY_PATH=~/projects/podcasts/transcription/greatLakes/cleanURL.py
 PYANNOTE_PATH=~/projects/podcasts/mixedTranscription/greatLakes/pyAnnote.py
 DIARIZE_PATH=$STORAGE_DIR/podcasts/diarization/premadeTransDiarized
+GET_URL_PATH=/home/blitt/projects/podcasts/mixedTranscription/greatLakes/getNextURL.py
 
-inURL=$1
+#this searches the urls to find the first one 
+#that hasn't been written to the finshed file
+inURL=`python3 $GET_URL_PATH $1 $2`
 kURL=`python3 $URL_KEY_PATH $inURL`
 
 #echo "downloading" 
@@ -20,7 +23,7 @@ curl -L $inURL --output $MP3_LOC/$kURL
 #echo "converting"
 #forcibly overwrite using the -y flag
 #turn that file into .wav format
-ffmpeg -y -i $MP3_LOC/$kURL -t 60 -ar 16000 -ac 1 -c:a pcm_s16le $MP3_LOC/$kURL.wav
+ffmpeg -y -i $MP3_LOC/$kURL -ar 16000 -ac 1 -c:a pcm_s16le $MP3_LOC/$kURL.wav
 
 echo "removing mp3"
 #delete the mp3

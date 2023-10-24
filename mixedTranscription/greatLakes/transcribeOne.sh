@@ -9,8 +9,11 @@ TRANSCRIPTS_PATH=$STORAGE_DIR/podcasts/transcripts/premadeTransTranscripts
 PROSODY_PATH=$STORAGE_DIR/podcasts/prosody/premadeTransProsody
 OPENSMILE_PATH=~/projects/podcasts/transcription/greatLakes/extractProsodicFeatures.py
 URL_KEY_PATH=~/projects/podcasts/transcription/greatLakes/cleanURL.py
+GET_URL_PATH=/home/blitt/projects/podcasts/mixedTranscription/greatLakes/getNextURL.py
 
-inURL=$1
+#this searches the urls to find the first one 
+#that hasn't been written to the finshed file
+inURL=`python3 $GET_URL_PATH $1 $2`
 kURL=`python3 $URL_KEY_PATH $inURL`
 #outName=${inURL//[\/\$]/}
 
