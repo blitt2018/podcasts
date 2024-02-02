@@ -1,0 +1,8 @@
+USE podcasts;
+CREATE TABLE IF NOT EXISTS floydUrls (
+    mp3URL VARCHAR(255) PRIMARY KEY
+);
+LOAD DATA LOCAL INFILE '/shared/3/projects/benlitterer/podcastData/mp3s/links/floydMonth/floydMonthlinksSHORT.txt'
+INTO TABLE floydUrls
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n';

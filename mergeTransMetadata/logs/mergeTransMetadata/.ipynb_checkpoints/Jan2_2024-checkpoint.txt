@@ -1,0 +1,2 @@
+shape of RSS scraped metadata: (66079531, 13)
+shape of podcastIndex metadata: (2115280, 41)

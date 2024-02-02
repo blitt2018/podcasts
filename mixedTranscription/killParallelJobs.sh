@@ -1,0 +1,12 @@
+ps -u blitt -o pid,command | grep transcribe | cut -f1 -d ' ' | parallel kill
+ps -u blitt -o pid,command | grep transcribe | cut -f2 -d ' ' | parallel kill
+ps -u blitt -o pid,command | grep transcribe | cut -f3 -d ' ' | parallel kill
+ps -u blitt -o pid,command | grep ffmpeg | cut -f1 -d ' ' | parallel kill
+ps -u blitt -o pid,command | grep ffmpeg | cut -f2 -d ' ' | parallel kill
+ps -u blitt -o pid,command | grep ffmpeg | cut -f3 -d ' ' | parallel kill
+ps -u blitt -o pid,command | grep Transcription | cut -f1 -d ' ' | parallel kill
+ps -u blitt -o pid,command | grep Transcription | cut -f2 -d ' ' | parallel kill
+ps -u blitt -o pid,command | grep Transcription | cut -f3 -d ' ' | parallel kill
+ps -u blitt -o pid,command | grep whisper | cut -f1 -d ' ' | parallel kill
+ps -u blitt -o pid,command | grep whisper | cut -f2 -d ' ' | parallel kill
+ps -u blitt -o pid,command | grep whisper | cut -f3 -d ' ' | parallel kill

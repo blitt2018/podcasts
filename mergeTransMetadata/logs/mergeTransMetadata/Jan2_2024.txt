@@ -1,0 +1,16 @@
+shape of RSS scraped metadata: (66079531, 13)
+shape of podcastIndex metadata: (2115280, 41)
+shape of data merged on rssUrl: (66079531, 53)
+shape of data without NA's in language column: (61244396, 53)
+shape of data with only English: (41712939, 53)
+finished date formatting
+# of date NA values: 916382
+shape of data after removing NA urls: (41120267, 56)
+shape after removing cleanDate NA values: (40438034, 57)
+forcing clean dates to UTC format (no offset assumes +00:00)
+writing merged file to disk
+dates for beforeFMonth are [05-03-2020, 05-09-2020], inclusive
+writing week before Floyd Month file to disk
+dates for Floyd Month are [05-11-2020, 06-08-2020], inclusive
+writing Floyd Month file to disk
+finished

@@ -1,0 +1,2 @@
+Seq	Host	Starttime	JobRuntime	Send	Receive	Exitval	Signal	Command
+1	:	1698872351.486	1976123.464	0	0	1	0	python3 0.2-downloadRSSMetadata.py /shared/3/projects/benlitterer/podcastData/podcastIndex/20splits/fSplitat /shared/3/projects/benlitterer/podcastData/podRss/floydFeeds/fSplitat 1 > /shared/3/projects/benlitterer/podcastData/podRss/floydStdOut/fSplitat
