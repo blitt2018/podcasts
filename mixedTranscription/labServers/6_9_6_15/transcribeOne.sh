@@ -3,19 +3,19 @@
 
 source activate transcribePodcasts
 
-STORAGE_DIR=/shared/3/projects/benlitterer/podcastData
+STORAGE_DIR=/data/blitt/podcastData
 MP3_LOC=$STORAGE_DIR/mp3s/transcription
-WHISPER_PATH=/shared/4/projects/podcasts/whisper.cpp
+WHISPER_PATH=/home/blitt/packages/whisper.cpp
 MODEL_NAME="ggml-base.en.bin"
-TRANSCRIPTS_PATH=$STORAGE_DIR/transcripts/floydMonth
-PROSODY_PATH=$STORAGE_DIR/prosody/floydMonth
+TRANSCRIPTS_PATH=$STORAGE_DIR/transcripts/6_9_6_15
+PROSODY_PATH=$STORAGE_DIR/prosody/6_9_6_15
 OPENSMILE_PATH=~/projects/podcasts/mixedTranscription/extractProsodicFeatures.py
 URL_KEY_PATH=~/projects/podcasts/mixedTranscription/cleanURL.py
-GET_URL_PATH=/home/blitt/projects/podcasts/mixedTranscription/fileTracking/floydMonths/fromRemote/getNextURLSetProcessing.py
-UPDATE_URL_PROCESSED=/home/blitt/projects/podcasts/mixedTranscription/fileTracking/floydMonths/fromRemote/updateUrlProcessed.py
-MERGE_SCRIPT_PATH=/home/blitt/projects/podcasts/merging/mergeTransProsody.py 
-MERGED_PATH=/shared/3/projects/benlitterer/podcastData/prosodyMerged/floydMonth 
-LOG_PATH=$STORAGE_DIR/logs/floydMonth
+GET_URL_PATH=~/projects/podcasts/mixedTranscription/fileTracking/6_9_6_15/getNextURLSetProcessing.py
+UPDATE_URL_PROCESSED=~/projects/podcasts/mixedTranscription/fileTracking/6_9_6_15/updateUrlProcessed.py
+MERGE_SCRIPT_PATH=~/projects/podcasts/merging/mergeTransProsody.py 
+MERGED_PATH=$STORAGE_DIR/prosodyMerged/6_9_6_15 
+#LOG_PATH=$STORAGE_DIR/logs/floydMonth
 GET_FINAL_DIR=/home/blitt/projects/podcasts/mixedTranscription/getHostPath.py
 
 while :
@@ -54,7 +54,7 @@ do
     #echo "prosody" 
     python3 $OPENSMILE_PATH $MP3_LOC/$kURL.wav $PROSODY_PATH/$kURL
     prosody=`date +%s`
-    echo prosody time `expr $prosody - $whisper` seconds >> $LOG_PATH/$kURL
+#    echo prosody time `expr $prosody - $whisper` seconds >> $LOG_PATH/$kURL
 
     #echo "removing wav" 
     #delete the wav
@@ -70,7 +70,7 @@ do
     rm $TRANSCRIPTS_PATH/${kURL}.srt
     rm $PROSODY_PATH/${kURL}LowLevel.csv 
     finished=`date +%s`
-    echo merge time `expr $finished - $prosody` seconds >> $LOG_PATH/$kURL
+#    echo merge time `expr $finished - $prosody` seconds >> $LOG_PATH/$kURL
     
     #update that this url has been processed 
     python3 $UPDATE_URL_PROCESSED $inURL
