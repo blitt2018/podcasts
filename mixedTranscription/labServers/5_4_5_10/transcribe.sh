@@ -16,7 +16,7 @@ URL_PATH="/shared/3/projects/benlitterer/podcastData/mp3s/links/floydMonth/floyd
 TRANS_PATH=~/projects/podcasts/mixedTranscription/labServers/5_4_5_10/transcribeOne.sh
 
 #time parallel -v --joblog logs/transcribe1_4_1.log -j1 -a $IN_FILE bash $TRANS_PATH "{}" 
-for i in {1..15}:
+for i in {1..31}:
 do
     nice -19 bash $TRANS_PATH &   
     sleep 3 

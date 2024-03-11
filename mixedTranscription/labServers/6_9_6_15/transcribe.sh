@@ -13,10 +13,10 @@ module load ffmpeg/4.4.2
 #IN_FILE="/gpfs/accounts/jurgens_root/jurgens0/blitt/podcasts/links/premadeTransLinks10.txt" 
 URL_PATH="/shared/3/projects/benlitterer/podcastData/mp3s/links/floydMonth/floydMonthLinks.txt"
 #FINISHED_PATH="/shared/3/projects/benlitterer/podcastData/transcripts/floydMonth/finished.txt"
-TRANS_PATH=~/projects/podcasts/mixedTranscription/labServers/fromRemote/transcribeOne.sh
+TRANS_PATH=~/projects/podcasts/mixedTranscription/labServers/6_9_6_15/transcribeOne.sh
 
 #time parallel -v --joblog logs/transcribe1_4_1.log -j1 -a $IN_FILE bash $TRANS_PATH "{}" 
-for i in {1..15}:
+for i in {1..31}:
 do
     nice -19 bash $TRANS_PATH $URL_PATH &   
     sleep 3 
