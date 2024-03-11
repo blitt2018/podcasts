@@ -9,7 +9,7 @@ IN_COL = sys.argv[2]
 OUT_PATH = sys.argv[3]
 TRUNCATION = int(sys.argv[4])
 
-df = pd.read_csv(IN_PATH, sep="\t") 
+df = pd.read_json(IN_PATH, orient="records", lines=True)
 print(df.shape)
 
 os.remove(IN_PATH)
@@ -18,7 +18,13 @@ os.remove(IN_PATH)
 nlp = spacy.load("en_core_web_md", exclude=["parse", "tagger", "textcat"])
 
 #get documents as list
-df = df.dropna(subset=["potentialOutPath", IN_COL]) 
+df = df.dropna(subset=["potentialOutPath", IN_COL])
+
+print(f"shape before removing long strings {df.shape}")
+#we can't process strings over 1,000,000 characters in spacy... 
+df = df[df[IN_COL].apply(len) < 1000000]
+print(f"shape after removing long strings {df.shape}")
+
 docs = df[IN_COL]
 
 if TRUNCATION != 0: 
@@ -27,6 +33,7 @@ if TRUNCATION != 0:
 outPaths = list(df["potentialOutPath"]) 
 docs = nlp.pipe(docs)
 
+print(f"processing file {IN_PATH}")
 #run NER!
 with open(OUT_PATH, "w") as outFile: 
     for i, doc in tqdm(enumerate(docs)): 

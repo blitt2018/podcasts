@@ -21,7 +21,7 @@ print(df.shape)
 
 
 #split up df
-SPLITS = 
+SPLITS = 10 
 print("splitting dataframe") 
 dfList = np.array_split(df, SPLITS)
 
