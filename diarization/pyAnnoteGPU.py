@@ -5,8 +5,7 @@ import sys
 #we control which gpu is used 
 #by setting it's visibility in bash script calling this script
 device = torch.device("cuda") 
-pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization@2.1",use_auth_token="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").to(device) 
-
+pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1" ,use_auth_token="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").to(device) 
 
 FILE_PATH=sys.argv[1]
 OUT_PATH=sys.argv[2]

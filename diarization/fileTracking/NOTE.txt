@@ -1,0 +1,2 @@
+#to create the database, I had to switch to the transcribePodcasts environment
+#and then update sqlalchemy. Then ran the python script (not the notebook)!

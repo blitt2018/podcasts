@@ -13,7 +13,7 @@ DIARIZE_PATH=$STORAGE_DIR/podcasts/diarization/5_11_6_8
 GET_URL_PATH=/home/blitt/projects/podcasts/diarization/fileTracking/getNextURLSetProcessing.py
 UPDATE_URL_PROCESSED=/home/blitt/projects/podcasts/diarization/fileTracking/updateUrlProcessed.py
 URL_KEY_PATH=~/projects/podcasts/mixedTranscription/cleanURL.py
-DB_NAME="5_11_6_8_diarize"
+DB_NAME="diarize"
 GET_FINAL_DIR=~/projects/podcasts/mixedTranscription/getHostPath.py
 
 #this searches the urls to find the first one 
