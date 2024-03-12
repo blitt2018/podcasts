@@ -4,6 +4,7 @@
 #since  this is the cpu version, make gpus inaccessable 
 #export CUDA_VISIBLE_DEVICES=$1
 
+#TODO: change 
 STORAGE_DIR=/scratch/jurgens_root/jurgens0/blitt
 MP3_LOC=$STORAGE_DIR/podcasts/mp3s/diarization
 URL_KEY_PATH=~/projects/podcasts/transcription/greatLakes/cleanURL.py
