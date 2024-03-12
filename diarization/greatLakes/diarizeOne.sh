@@ -9,7 +9,7 @@ STORAGE_DIR=/scratch/jurgens_root/jurgens0/blitt
 MP3_LOC=$STORAGE_DIR/podcasts/mp3s/diarization
 
 PYANNOTE_PATH=~/projects/podcasts/diarization/pyAnnoteGPU.py
-DIARIZE_PATH=$STORAGE_DIR/podcasts/diarization/5_11_6_8
+DIARIZE_PATH=$STORAGE_DIR/podcasts/diarization/mayJune
 GET_URL_PATH=/home/blitt/projects/podcasts/diarization/fileTracking/getNextURLSetProcessing.py
 UPDATE_URL_PROCESSED=/home/blitt/projects/podcasts/diarization/fileTracking/updateUrlProcessed.py
 URL_KEY_PATH=~/projects/podcasts/mixedTranscription/cleanURL.py
@@ -28,7 +28,7 @@ curl -L $inURL --output $MP3_LOC/$kURL
 #echo "converting"
 #forcibly overwrite using the -y flag
 #turn that file into .wav format
-ffmpeg -y -i $MP3_LOC/$kURL -ar 16000 -ac 1 -c:a pcm_s16le $MP3_LOC/$kURL.wav
+ffmpeg -y -i $MP3_LOC/$kURL -t 180 -ar 16000 -ac 1 -c:a pcm_s16le $MP3_LOC/$kURL.wav
 
 echo "removing mp3"
 #delete the mp3
@@ -43,8 +43,8 @@ python3 $PYANNOTE_PATH $MP3_LOC/$kURL.wav $DIARIZE_PATH/$HIER_PATH/$kURL.rttm
 
 #echo "removing wav"
 #delete the wav
-rm $MP3_LOC/$kURL.wav
+#rm $MP3_LOC/$kURL.wav
 
 #update that this url has been processed 
-python3 $UPDATE_URL_PROCESSED $inURL $DB_NAME
+#python3 $UPDATE_URL_PROCESSED $inURL $DB_NAME
 

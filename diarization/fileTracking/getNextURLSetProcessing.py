@@ -3,6 +3,7 @@ from sqlalchemy import create_engine, text
 import pandas as pd
 import atexit
 import sys 
+import pymysql
 
 # Import dataframe into MySQL
 database_username = 'blitt'
@@ -13,7 +14,8 @@ database_name     = 'podcasts'
 #we use this file for all tables 
 table_name = sys.argv[1] 
 
-sqlEngine = sqlalchemy.create_engine('mysql+pymysql://blitt:password@curry:3306/podcasts', pool_recycle=3600, future=True)
+#curry ip address is: 141.211.192.72
+sqlEngine = sqlalchemy.create_engine('mysql+pymysql://blitt:password@141.211.192.72:3306/podcasts', pool_recycle=3600, future=True)
 with sqlEngine.connect() as conn:
     with conn.begin():
         
