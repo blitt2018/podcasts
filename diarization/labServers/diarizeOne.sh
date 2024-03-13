@@ -2,7 +2,7 @@
 #we then run this file in parallel!
 
 #since  this is the cpu version, make gpus inaccessable 
-export CUDA_VISIBLE_DEVICES=1
+export CUDA_VISIBLE_DEVICES=2
 
 #TODO: consider how to handle the storage element of this 
 STORAGE_DIR=/shared/3/projects/benlitterer
@@ -28,7 +28,7 @@ curl -L $inURL --output $MP3_LOC/$kURL
 #echo "converting"
 #forcibly overwrite using the -y flag
 #turn that file into .wav format
-ffmpeg -y -i $MP3_LOC/$kURL -ar 16000 -ac 1 -c:a pcm_s16le $MP3_LOC/$kURL.wav
+ffmpeg -y -i $MP3_LOC/$kURL -t 480 -ar 16000 -ac 1 -c:a pcm_s16le $MP3_LOC/$kURL.wav
 
 echo "removing mp3"
 #delete the mp3
