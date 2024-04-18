@@ -8,8 +8,8 @@ import numpy as np
 OUT_STEM = "/shared/3/projects/benlitterer/podcastData/intermediary/floydMonth/splitsFromParallel/fullTextSplit"
 
 #read in file telling us where to look for finished transcripts 
-print("reading file") 
-df = pd.read_csv("/shared/3/projects/benlitterer/podcastData/processed/floydMonth/floydMonthEn.csv") 
+print("reading file")
+df = pd.read_csv("/shared/3/projects/benlitterer/podcastData/processed/floydMonth/mergedMetaDataClean.csv") 
 
 print(df.shape)
 print("finding existing paths")

@@ -7,8 +7,8 @@ STORAGE_DIR=/data/blitt/podcastData
 MP3_LOC=$STORAGE_DIR/mp3s/transcription
 WHISPER_PATH=/home/blitt/packages/whisper.cpp
 MODEL_NAME="ggml-base.en.bin"
-TRANSCRIPTS_PATH=$STORAGE_DIR/transcripts/6_9_6_15
-PROSODY_PATH=$STORAGE_DIR/prosody/6_9_6_15
+TRANSCRIPTS_PATH=$STORAGE_DIR/transcripts/mayJune
+PROSODY_PATH=$STORAGE_DIR/prosody/mayJune
 OPENSMILE_PATH=~/projects/podcasts/mixedTranscription/extractProsodicFeatures.py
 URL_KEY_PATH=~/projects/podcasts/mixedTranscription/cleanURL.py
 GET_URL_PATH=~/projects/podcasts/mixedTranscription/fileTracking/6_9_6_15/getNextURLSetProcessing.py
@@ -23,6 +23,7 @@ do
     #for time logging 
     start=`date +%s`
 
+    set -e
     #TODO: add while loop here so this runs forever 
     #this searches the urls to find the first one 
     #that hasn't been written to the finshed file
@@ -53,8 +54,6 @@ do
 
     #echo "prosody" 
     python3 $OPENSMILE_PATH $MP3_LOC/$kURL.wav $PROSODY_PATH/$kURL
-    prosody=`date +%s`
-#    echo prosody time `expr $prosody - $whisper` seconds >> $LOG_PATH/$kURL
 
     #echo "removing wav" 
     #delete the wav
@@ -69,8 +68,6 @@ do
     #TODO: remove all files other than merged version 
     rm $TRANSCRIPTS_PATH/${kURL}.srt
     rm $PROSODY_PATH/${kURL}LowLevel.csv 
-    finished=`date +%s`
-#    echo merge time `expr $finished - $prosody` seconds >> $LOG_PATH/$kURL
     
     #update that this url has been processed 
     python3 $UPDATE_URL_PROCESSED $inURL

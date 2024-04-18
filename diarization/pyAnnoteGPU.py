@@ -8,7 +8,9 @@ from pyannote.audio import Audio
 gpuNum = sys.argv[1]
 FILE_PATH=sys.argv[2]
 OUT_PATH=sys.argv[3]
-device = torch.device("cuda:" + str(gpuNum)) 
+device = torch.device(f"cuda:{str(gpuNum)}") 
+#print(device)
+#device = torch.device("cuda:2")
 pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1" ,use_auth_token="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").to(device) 
 
 io = Audio(mono='downmix', sample_rate=16000)

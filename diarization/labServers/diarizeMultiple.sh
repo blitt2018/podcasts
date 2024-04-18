@@ -47,8 +47,8 @@ do
 
     #echo "removing wav"
     #delete the wav
-    #rm $MP3_LOC/$kURL.wav
+    rm $MP3_LOC/$kURL.wav
 
     #update that this url has been processed 
-    #python3 $UPDATE_URL_PROCESSED $inURL $TABLE_NAME
+    python3 $UPDATE_URL_PROCESSED $inURL $TABLE_NAME
 done

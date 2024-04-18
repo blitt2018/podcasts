@@ -15,4 +15,4 @@ df["cleanDatesLoc"] = pd.to_datetime(df["cleanDatesLoc"])
 df = df[(df["cleanDatesLoc"] >= "2020-5-1") & (df["cleanDatesLoc"] <= "2020-6-30")]
 
 #write the data 
-df.to_json("/shared/3/projects/benlitterer/podcastData/processed/mayJune/mayJuneMetadata.jsonl", orient="records", lines=True)
+df.to_json("/shared/3/projects/benlitterer/podcastData/processed/mayJune/mayJuneMetadata.jsonl", orient="records", lines=True)-h 
