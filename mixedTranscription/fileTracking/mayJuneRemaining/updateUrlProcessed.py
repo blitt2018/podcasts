@@ -14,7 +14,7 @@ database_name     = 'podcasts'
 table_name = 'mayJuneRemaining'
 
 #establish connection to podcasts database
-sqlEngine = sqlalchemy.create_engine('mysql+pymysql://blitt:password@curry:3306/podcasts', pool_recycle=3600)
+sqlEngine = sqlalchemy.create_engine('mysql+pymysql://blitt:password@curry.si.umich.edu:3306/podcasts', pool_recycle=3600)
 #conn = sqlEngine.connect()
 
 print("new version")

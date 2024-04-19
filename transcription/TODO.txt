@@ -1,3 +1,0 @@
-we're getting weird url errors: 
-- for example https://am1160.atl.org/podcasts/recordings/2022/2/23/family_room_2022-02-23\ 11:00.mp3 should have a % instead of a space it seems, or just the space 
-- we need to write a script that converts the url to something cleaner without special characters 

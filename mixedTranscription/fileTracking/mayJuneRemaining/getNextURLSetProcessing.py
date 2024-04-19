@@ -6,11 +6,11 @@ import atexit
 # Import dataframe into MySQL
 database_username = 'blitt'
 database_password = 'podcasts'
-database_ip       = 'curry'
+database_ip       = 'curry.si.umich.edu'
 database_name     = 'podcasts'
 table_name = 'mayJuneRemaining'
 
-sqlEngine = sqlalchemy.create_engine('mysql+pymysql://blitt:password@curry:3306/podcasts', pool_recycle=3600, future=True)
+sqlEngine = sqlalchemy.create_engine('mysql+pymysql://blitt:password@curry.si.umich.edu:3306/podcasts', pool_recycle=3600, future=True)
 with sqlEngine.connect() as conn:
     with conn.begin():
         

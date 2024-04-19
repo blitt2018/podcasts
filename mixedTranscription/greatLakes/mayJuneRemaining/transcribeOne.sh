@@ -2,13 +2,13 @@
 #we then run this file in parallel!
 
 source activate transcribePodcasts
-
-STORAGE_DIR=/shared/3/projects/benlitterer/podcastData
-MP3_LOC=$STORAGE_DIR/mp3s/transcription
-WHISPER_PATH=/shared/4/projects/podcasts/whisper.cpp
+STORAGE_DIR=/scratch/jurgens_root/jurgens0/blitt
+MP3_LOC=$STORAGE_DIR/podcasts/mp3s/transcription
+WHISPER_PATH=~/projects/podcasts/whisper.cpp
 MODEL_NAME="ggml-base.en.bin"
-TRANSCRIPTS_PATH=$STORAGE_DIR/transcripts/mayJune
-PROSODY_PATH=$STORAGE_DIR/prosody/floydMonth/mayJune
+TRANSCRIPTS_PATH=$STORAGE_DIR/podcasts/transcripts/mayJune
+PROSODY_PATH=$STORAGE_DIR/podcasts/prosody/mayJune
+
 OPENSMILE_PATH=~/projects/podcasts/mixedTranscription/extractProsodicFeatures.py
 URL_KEY_PATH=~/projects/podcasts/mixedTranscription/cleanURL.py
 #GET_URL_PATH=/home/blitt/projects/podcasts/mixedTranscription/getNextURL.py
@@ -17,7 +17,7 @@ GET_URL_PATH=/home/blitt/projects/podcasts/mixedTranscription/fileTracking/mayJu
 UPDATE_URL_PROCESSED=/home/blitt/projects/podcasts/mixedTranscription/fileTracking/mayJuneRemaining/updateUrlProcessed.py
 #UPDATE_URL_PROCESSING=/home/blitt/projects/podcasts/mixedTranscription/fileTracking/floydMonths/updateUrlProcessing.py
 MERGE_SCRIPT_PATH=/home/blitt/projects/podcasts/merging/mergeTransProsody.py
-MERGED_PATH=/shared/3/projects/benlitterer/podcastData/prosodyMerged/mayJuneRemaining 
+MERGED_PATH=$STORAGE_DIR/podcasts/prosodyMerged/mayJuneRemaining
 #LOG_PATH=$STORAGE_DIR/logs/floydMonth
 GET_FINAL_DIR=/home/blitt/projects/podcasts/mixedTranscription/getHostPath.py
 
